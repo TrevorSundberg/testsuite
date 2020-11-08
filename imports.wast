@@ -1,6 +1,6 @@
 ;; Auxiliary module to import from
 
-(module
+(module $test
   (func (export "func"))
   (func (export "func-i32") (param i32))
   (func (export "func-f32") (param f32))
@@ -16,7 +16,6 @@
   ;; (memory (export "memory-2-4") 2 4)
 )
 
-(register "test")
 
 
 ;; Functions
@@ -39,7 +38,7 @@
   (import "spectest" "print_f64_f64" (func $print_f64_f64 (param f64 f64)))
   (func $print_i32-2 (import "spectest" "print_i32") (param i32))
   (func $print_f64-2 (import "spectest" "print_f64") (param f64))
-  (import "test" "func-i64->i64" (func $i64->i64 (param i64) (result i64)))
+  (import "$test" "func-i64->i64" (func $i64->i64 (param i64) (result i64)))
 
   (func (export "p1") (import "spectest" "print_i32") (param i32))
   (func $p (export "p2") (import "spectest" "print_i32") (param i32))
@@ -90,21 +89,21 @@
 (assert_invalid
   (module 
     (type (func (result i32)))
-    (import "test" "func" (func (type 1)))
+    (import "$test" "func" (func (type 1)))
   )
   "unknown type"
 )
 
-(module (import "test" "func" (func)))
-(module (import "test" "func-i32" (func (param i32))))
-(module (import "test" "func-f32" (func (param f32))))
-(module (import "test" "func->i32" (func (result i32))))
-(module (import "test" "func->f32" (func (result f32))))
-(module (import "test" "func-i32->i32" (func (param i32) (result i32))))
-(module (import "test" "func-i64->i64" (func (param i64) (result i64))))
+(module (import "$test" "func" (func)))
+(module (import "$test" "func-i32" (func (param i32))))
+(module (import "$test" "func-f32" (func (param f32))))
+(module (import "$test" "func->i32" (func (result i32))))
+(module (import "$test" "func->f32" (func (result f32))))
+(module (import "$test" "func-i32->i32" (func (param i32) (result i32))))
+(module (import "$test" "func-i64->i64" (func (param i64) (result i64))))
 
 (assert_unlinkable
-  (module (import "test" "unknown" (func)))
+  (module (import "$test" "unknown" (func)))
   "unknown import"
 )
 (assert_unlinkable
@@ -113,80 +112,80 @@
 )
 
 (assert_unlinkable
-  (module (import "test" "func" (func (param i32))))
+  (module (import "$test" "func" (func (param i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func" (func (result i32))))
+  (module (import "$test" "func" (func (result i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func" (func (param i32) (result i32))))
+  (module (import "$test" "func" (func (param i32) (result i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32" (func)))
+  (module (import "$test" "func-i32" (func)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32" (func (result i32))))
+  (module (import "$test" "func-i32" (func (result i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32" (func (param f32))))
+  (module (import "$test" "func-i32" (func (param f32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32" (func (param i64))))
+  (module (import "$test" "func-i32" (func (param i64))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32" (func (param i32) (result i32))))
+  (module (import "$test" "func-i32" (func (param i32) (result i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func->i32" (func)))
+  (module (import "$test" "func->i32" (func)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func->i32" (func (param i32))))
+  (module (import "$test" "func->i32" (func (param i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func->i32" (func (result f32))))
+  (module (import "$test" "func->i32" (func (result f32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func->i32" (func (result i64))))
+  (module (import "$test" "func->i32" (func (result i64))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func->i32" (func (param i32) (result i32))))
+  (module (import "$test" "func->i32" (func (param i32) (result i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32->i32" (func)))
+  (module (import "$test" "func-i32->i32" (func)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32->i32" (func (param i32))))
+  (module (import "$test" "func-i32->i32" (func (param i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "func-i32->i32" (func (result i32))))
+  (module (import "$test" "func-i32->i32" (func (result i32))))
   "incompatible import type"
 )
 
 (assert_unlinkable
-  (module (import "test" "global-i32" (func (result i32))))
+  (module (import "$test" "global-i32" (func (result i32))))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "table-10-inf" (func)))
+  (module (import "$test" "table-10-inf" (func)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "memory-2-inf" (func)))
+  (module (import "$test" "memory-2-inf" (func)))
   "incompatible import type"
 )
 (assert_unlinkable
@@ -228,11 +227,11 @@
 (assert_return (invoke "get-x") (i32.const 666))
 (assert_return (invoke "get-y") (i32.const 666))
 
-(module (import "test" "global-i32" (global i32)))
-(module (import "test" "global-f32" (global f32)))
+(module (import "$test" "global-i32" (global i32)))
+(module (import "$test" "global-f32" (global f32)))
 
 (assert_unlinkable
-  (module (import "test" "unknown" (global i32)))
+  (module (import "$test" "unknown" (global i32)))
   "unknown import"
 )
 (assert_unlinkable
@@ -241,15 +240,15 @@
 )
 
 (assert_unlinkable
-  (module (import "test" "func" (global i32)))
+  (module (import "$test" "func" (global i32)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "table-10-inf" (global i32)))
+  (module (import "$test" "table-10-inf" (global i32)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "memory-2-inf" (global i32)))
+  (module (import "$test" "memory-2-inf" (global i32)))
   "incompatible import type"
 )
 (assert_unlinkable
@@ -319,9 +318,9 @@
   "multiple tables"
 )
 
-(module (import "test" "table-10-inf" (table 10 funcref)))
-(module (import "test" "table-10-inf" (table 5 funcref)))
-(module (import "test" "table-10-inf" (table 0 funcref)))
+(module (import "$test" "table-10-inf" (table 10 funcref)))
+(module (import "$test" "table-10-inf" (table 5 funcref)))
+(module (import "$test" "table-10-inf" (table 0 funcref)))
 (module (import "spectest" "table" (table 10 funcref)))
 (module (import "spectest" "table" (table 5 funcref)))
 (module (import "spectest" "table" (table 0 funcref)))
@@ -332,7 +331,7 @@
 (module (import "spectest" "table" (table 5 25 funcref)))
 
 (assert_unlinkable
-  (module (import "test" "unknown" (table 10 funcref)))
+  (module (import "$test" "unknown" (table 10 funcref)))
   "unknown import"
 )
 (assert_unlinkable
@@ -341,11 +340,11 @@
 )
 
 (assert_unlinkable
-  (module (import "test" "table-10-inf" (table 12 funcref)))
+  (module (import "$test" "table-10-inf" (table 12 funcref)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "table-10-inf" (table 10 20 funcref)))
+  (module (import "$test" "table-10-inf" (table 10 20 funcref)))
   "incompatible import type"
 )
 (assert_unlinkable
@@ -358,15 +357,15 @@
 )
 
 (assert_unlinkable
-  (module (import "test" "func" (table 10 funcref)))
+  (module (import "$test" "func" (table 10 funcref)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "global-i32" (table 10 funcref)))
+  (module (import "$test" "global-i32" (table 10 funcref)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "memory-2-inf" (table 10 funcref)))
+  (module (import "$test" "memory-2-inf" (table 10 funcref)))
   "incompatible import type"
 )
 (assert_unlinkable
@@ -414,9 +413,9 @@
   "multiple memories"
 )
 
-(module (import "test" "memory-2-inf" (memory 2)))
-(module (import "test" "memory-2-inf" (memory 1)))
-(module (import "test" "memory-2-inf" (memory 0)))
+(module (import "$test" "memory-2-inf" (memory 2)))
+(module (import "$test" "memory-2-inf" (memory 1)))
+(module (import "$test" "memory-2-inf" (memory 0)))
 (module (import "spectest" "memory" (memory 1)))
 (module (import "spectest" "memory" (memory 0)))
 (module (import "spectest" "memory" (memory 1 2)))
@@ -425,7 +424,7 @@
 (module (import "spectest" "memory" (memory 0 3)))
 
 (assert_unlinkable
-  (module (import "test" "unknown" (memory 1)))
+  (module (import "$test" "unknown" (memory 1)))
   "unknown import"
 )
 (assert_unlinkable
@@ -434,11 +433,11 @@
 )
 
 (assert_unlinkable
-  (module (import "test" "memory-2-inf" (memory 3)))
+  (module (import "$test" "memory-2-inf" (memory 3)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "memory-2-inf" (memory 2 3)))
+  (module (import "$test" "memory-2-inf" (memory 2 3)))
   "incompatible import type"
 )
 (assert_unlinkable
@@ -451,15 +450,15 @@
 )
 
 (assert_unlinkable
-  (module (import "test" "func-i32" (memory 1)))
+  (module (import "$test" "func-i32" (memory 1)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "global-i32" (memory 1)))
+  (module (import "$test" "global-i32" (memory 1)))
   "incompatible import type"
 )
 (assert_unlinkable
-  (module (import "test" "table-10-inf" (memory 1)))
+  (module (import "$test" "table-10-inf" (memory 1)))
   "incompatible import type"
 )
 (assert_unlinkable
@@ -568,26 +567,26 @@
 ;; This module is required to validate, regardless of whether it can be
 ;; linked. Overloading is not possible in wasm itself, but it is possible
 ;; in modules from which wasm can import.
-(module)
-(register "not wasm")
+(module $notwasm)
+
 (assert_unlinkable
   (module
-    (import "not wasm" "overloaded" (func))
-    (import "not wasm" "overloaded" (func (param i32)))
-    (import "not wasm" "overloaded" (func (param i32 i32)))
-    (import "not wasm" "overloaded" (func (param i64)))
-    (import "not wasm" "overloaded" (func (param f32)))
-    (import "not wasm" "overloaded" (func (param f64)))
-    (import "not wasm" "overloaded" (func (result i32)))
-    (import "not wasm" "overloaded" (func (result i64)))
-    (import "not wasm" "overloaded" (func (result f32)))
-    (import "not wasm" "overloaded" (func (result f64)))
-    (import "not wasm" "overloaded" (global i32))
-    (import "not wasm" "overloaded" (global i64))
-    (import "not wasm" "overloaded" (global f32))
-    (import "not wasm" "overloaded" (global f64))
-    (import "not wasm" "overloaded" (table 0 funcref))
-    (import "not wasm" "overloaded" (memory 0))
+    (import "$notwasm" "overloaded" (func))
+    (import "$notwasm" "overloaded" (func (param i32)))
+    (import "$notwasm" "overloaded" (func (param i32 i32)))
+    (import "$notwasm" "overloaded" (func (param i64)))
+    (import "$notwasm" "overloaded" (func (param f32)))
+    (import "$notwasm" "overloaded" (func (param f64)))
+    (import "$notwasm" "overloaded" (func (result i32)))
+    (import "$notwasm" "overloaded" (func (result i64)))
+    (import "$notwasm" "overloaded" (func (result f32)))
+    (import "$notwasm" "overloaded" (func (result f64)))
+    (import "$notwasm" "overloaded" (global i32))
+    (import "$notwasm" "overloaded" (global i64))
+    (import "$notwasm" "overloaded" (global f32))
+    (import "$notwasm" "overloaded" (global f64))
+    (import "$notwasm" "overloaded" (table 0 funcref))
+    (import "$notwasm" "overloaded" (memory 0))
   )
   "unknown import"
 )
